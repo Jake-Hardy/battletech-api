@@ -8,7 +8,7 @@ use mongodb::{
 	sync::{Client, Collection},
 };
 
-use crate::models::battlemech_model::Battlemech;
+use crate::models::{battlemech_model::Battlemech};
 
 pub struct MongoRepo {
 	col: Collection<Battlemech>,
@@ -32,6 +32,7 @@ impl MongoRepo {
 			id: None,
 			name: new_mech.name,
 			designation: new_mech.designation,
+			components: new_mech.components,
 		};
 		let mech = self 
 			.col 
@@ -70,7 +71,8 @@ impl MongoRepo {
 				{
 					"id": new_battlemech.id,
 					"name": new_battlemech.name,
-					"designation": new_battlemech.designation
+					"designation": new_battlemech.designation,
+					"components": new_battlemech.components,
 				},
 		};
 		let updated_doc = self 
