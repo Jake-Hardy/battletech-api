@@ -1,5 +1,5 @@
 use crate::{models::battlemech_model::Battlemech, repository::mongodb_repo::MongoRepo};
-use mongodb::{results::InsertOneResult, bson::oid::ObjectId};
+use mongodb::{results::InsertOneResult, bson::oid::ObjectId, bson};
 use rocket::{http::Status, serde::json::Json, State};
 
 #[post("/battlemech", data = "<new_battlemech>")]
@@ -11,6 +11,7 @@ pub fn create_battlemech(
 		id: None,
 		name: new_battlemech.name.to_owned(),
 		designation: new_battlemech.designation.to_owned(),
+		components: new_battlemech.components.clone(),
 	};
 	let battlemech_detail = db.create_battlemech(data);
 	match battlemech_detail {
@@ -55,6 +56,7 @@ pub fn update_battlemech(
 		id: Some(ObjectId::parse_str(&id).unwrap()),
 		name: new_battlemech.name.to_owned(),
 		designation: new_battlemech.designation.to_owned(),
+		components: new_battlemech.components.clone(),
 	};
 	let update_result = db.update_battlemech(&id, data);
 	match update_result {
