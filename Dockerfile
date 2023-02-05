@@ -3,6 +3,6 @@ FROM rust:latest
 WORKDIR /app
 COPY . /app
 
-# RUN cargo install --path .
+RUN cargo install --path .
 
-# CMD ["battletech-api"]
+CMD ["battletech-api"]
