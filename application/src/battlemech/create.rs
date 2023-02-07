@@ -1,4 +1,5 @@
 use domain::battlemech_model::Battlemech;
+use domain::component_model::Component;
 use shared::response_models::{Response, ResponseBody};
 
 use rocket::response::status::Created;
@@ -15,6 +16,14 @@ pub fn create_battlemech(battlemech: Json<Battlemech>) -> Created<String> {
 		designation: battlemech.designation.to_owned(),
 		components: battlemech.components.clone(),
 	};
+
+	for(_i, c) in data.components.iter().enumerate() {
+		match Component::validate(&c.name) {
+			true => continue,
+			false => panic!("Component was invalid: {}", c.name)
+		}
+	}
+
 	let battlemech_detail = db.create_battlemech(data);
 	match battlemech_detail {
 		Ok(battlemech) => {
