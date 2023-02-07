@@ -1,0 +1,12 @@
+[package]
+name = "infrastructure"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dotenv = "0.15.0"
+
+[dependencies.mongodb]
+version = "2.2.0"
+default-features = false
+features = ["sync"] 

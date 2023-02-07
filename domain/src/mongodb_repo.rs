@@ -8,7 +8,7 @@ use mongodb::{
 	sync::{Client, Collection},
 };
 
-use crate::models::{battlemech_model::Battlemech};
+use crate::{battlemech_model::Battlemech};
 
 pub struct MongoRepo {
 	col: Collection<Battlemech>,

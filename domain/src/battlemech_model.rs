@@ -1,7 +1,7 @@
 use mongodb::bson::oid::ObjectId;
 use serde::{Serialize, Deserialize};
 
-use crate::models::component_model::Component;
+use crate::component_model::Component;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Battlemech {
