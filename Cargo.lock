@@ -58,6 +58,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "api"
+version = "0.1.0"
+dependencies = [
+ "application",
+ "domain",
+ "rocket",
+ "serde_json",
+ "shared",
+]
+
+[[package]]
+name = "application"
+version = "0.1.0"
+dependencies = [
+ "domain",
+ "infrastructure",
+ "mongodb",
+ "rocket",
+ "serde_json",
+ "shared",
+]
+
+[[package]]
 name = "async-attributes"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -279,16 +302,6 @@ name = "base64"
 version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ea22880d78093b0cbe17c89f64a7d457941e65759157ec6cb31a31d652b05e5"
-
-[[package]]
-name = "battletech-api"
-version = "0.1.0"
-dependencies = [
- "dotenv",
- "mongodb",
- "rocket",
- "serde",
-]
 
 [[package]]
 name = "binascii"
@@ -622,6 +635,16 @@ dependencies = [
  "block-buffer",
  "crypto-common",
  "subtle",
+]
+
+[[package]]
+name = "domain"
+version = "0.1.0"
+dependencies = [
+ "dotenv",
+ "mongodb",
+ "rocket",
+ "serde",
 ]
 
 [[package]]
@@ -1068,6 +1091,14 @@ dependencies = [
  "autocfg",
  "hashbrown",
  "serde",
+]
+
+[[package]]
+name = "infrastructure"
+version = "0.1.0"
+dependencies = [
+ "dotenv",
+ "mongodb",
 ]
 
 [[package]]
@@ -1929,6 +1960,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "900fba806f70c630b0a382d0d825e17a0f19fcd059a2ade1ff237bcddf446b31"
 dependencies = [
  "lazy_static",
+]
+
+[[package]]
+name = "shared"
+version = "0.1.0"
+dependencies = [
+ "domain",
+ "rocket",
+ "serde",
 ]
 
 [[package]]
