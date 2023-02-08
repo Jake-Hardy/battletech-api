@@ -14,7 +14,7 @@ pub fn list_battlemech(path: String) -> Result<Battlemech, Status> {
 	let battlemech_detail = db.get_battlemech(&id);
 	match battlemech_detail {
 		Ok(battlemech) => Ok(battlemech),
-		Err(_) => Err(Status::InternalServerError),
+		Err(_) => Err(Status::NotFound),
 	}
 }
 

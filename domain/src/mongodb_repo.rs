@@ -27,7 +27,7 @@ impl MongoRepo {
 		MongoRepo { col }
 	}
 
-	pub fn create_battlemech(&self, new_mech: Battlemech) -> Result<InsertOneResult, Error> {
+	pub fn create_battlemech(&self, new_mech: Battlemech) -> Result<Battlemech, Error> {
 		let new_doc = Battlemech {
 			id: None,
 			name: new_mech.name,
@@ -39,7 +39,10 @@ impl MongoRepo {
 			.insert_one(new_doc, None)
 			.ok()
 			.expect("Error creating mech");
-		Ok(mech)
+		let mech_id = mech.inserted_id.into_relaxed_extjson().get("$oid").unwrap().to_string();
+		
+		// This is so fucking hacky
+		self.get_battlemech(&mech_id[1..mech_id.len() - 1].to_string())
 	}
 
 	pub fn get_all_battlemechs(&self) -> Result<Vec<Battlemech>, Error> {
@@ -53,7 +56,10 @@ impl MongoRepo {
 	}
 
 	pub fn get_battlemech(&self, id: &String) -> Result<Battlemech, Error> {
-		let obj_id = ObjectId::parse_str(id).unwrap();
+		let obj_id = match ObjectId::parse_str(id) {
+			Ok(i) => i,
+			Err(e) => return Err(mongodb::bson::extjson::de::Error::InvalidObjectId(e)),
+		};
 		let filter = doc! {"_id": obj_id};
 		let battlemech_detail = self 
 			.col 

@@ -17,15 +17,32 @@ pub fn list_battlemechs_handler() -> content::RawJson<String> {
 
 #[get("/battlemech/<battlemech_id>")]
 pub fn list_battlemech_handler(battlemech_id: String) -> Result<content::RawJson<String>, Status> {
-	let battlemech = read::list_battlemech(battlemech_id)?;
-	let response = Response { body: ResponseBody::Battlemech(battlemech)};
+	// let battlemech = read::list_battlemech(battlemech_id)?;
+	// let response = Response { body: ResponseBody::Battlemech(battlemech)};
+	let response = match read::list_battlemech(battlemech_id) {
+		Ok(b) => {
+			Response { body: ResponseBody::Battlemech(b)}
+		},
+		Err(e) => {
+			Response { body: ResponseBody::Message(e.to_string()) }
+		}
+	};
 
 	Ok(content::RawJson(serde_json::to_string(&response).unwrap()))
 }
 
 #[post("/battlemech", format = "application/json", data = "<battlemech>")]
-pub fn create_battlemech_handler(battlemech: Json<Battlemech>) -> content::RawJson<Created<String>> {
-	content::RawJson(create::create_battlemech(battlemech))
+pub fn create_battlemech_handler(battlemech: Json<Battlemech>) -> Result<content::RawJson<String>, Status> {
+	let response = match create::create_battlemech(battlemech) {
+		Ok(b) => {
+			Response { body: ResponseBody::Battlemech(b) }
+		},
+		Err(e) => {
+			Response { body: ResponseBody::Message(e.to_string()) }
+		}
+	};
+
+	Ok(content::RawJson(serde_json::to_string(&response).unwrap()))
 }
 
 #[put("/battlemech/<battlemech_id>", data="<new_battlemech>")]
